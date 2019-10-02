@@ -23,3 +23,46 @@
     </div>
   </div>
 </div>
+
+<script>
+  $(document).on('turbolinks:load', function() {
+    // Dialog.prototype.handleKeyDown = function(e) {
+    $(document).on('keydown', function(e) {
+      var Dialog = this;
+      var KEY_TAB = 9;
+
+      function handleBackwardTab() {
+        if ( document.activeElement === Dialog.firstFocusableEl ) {
+          e.preventDefault();
+          Dialog.lastFocusableEl.focus();
+        }
+      }
+      function handleForwardTab() {
+        if ( document.activeElement === Dialog.lastFocusableEl ) {
+          e.preventDefault();
+          Dialog.firstFocusableEl.focus();
+        }
+      }
+
+      switch(e.keyCode) {
+        case KEY_TAB:
+          if ( Dialog.focusableEls.length === 1 ) {
+            e.preventDefault();
+            break;
+          }
+
+          if ( e.shiftKey ) {
+            handleBackwardTab();
+          } else {
+            handleForwardTab();
+          }
+
+          break;
+        default:
+          break;
+      } // end switch
+
+
+    });
+  });
+</script>
